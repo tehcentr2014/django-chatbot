@@ -25,10 +25,12 @@ SECRET_KEY = 'django-insecure-wsa9k4v_goql%t8rn@q4*5flo+xnnxa%8!^p2g(4g-=py==ur)
 
 OPENAI_API_KEY = config('OPENAI_API_KEY')
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['8000-tehcentr201-djangochatb-47ocbc66ry6.ws-eu114.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://*.8000-tehcentr201-djangochatb-47ocbc66ry6.ws-eu114.gitpod.io','https://*.127.0.0.1:8000']
 
 
 # Application definition
@@ -40,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chatbot',
+    'chatbot.apps.ChatbotConfig',
+    
 ]
 
 MIDDLEWARE = [

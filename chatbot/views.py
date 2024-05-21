@@ -1,24 +1,24 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-import openai
-
+from openai import OpenAI
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import Chat
 from django.utils import timezone
 from django.conf import settings
+import os
 
-openai.api_key = settings.OPENAI_API_KEY
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+#client = OpenAI(api_key=os.environ.OPENAI_API_KEY)
+
 
 def ask_openai(message):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": message},
-        ]
-    )
-    
+    response = client.chat.completions.create(model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": message},
+    ])
+
     answer = response.choices[0].message.content.strip()
     return answer
 

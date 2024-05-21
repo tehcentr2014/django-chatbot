@@ -5,18 +5,16 @@ import openai
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import Chat
-
 from django.utils import timezone
+from django.conf import settings
 
-
-openai_api_key = 'sk-proj-MDhOUlV0kQGgz3iHx3OqT3BlbkFJ3MtSvKNR7H8h1I2Gleag'
-openai.api_key = openai_api_key
+openai.api_key = settings.OPENAI_API_KEY
 
 def ask_openai(message):
     response = openai.ChatCompletion.create(
-        model = "gpt-4",
+        model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are an helpful assistant."},
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": message},
         ]
     )
@@ -26,17 +24,11 @@ def ask_openai(message):
 
 # Create your views here.
 def chatbot(request):
-    chats = Chat.objects.filter(user=request.user)
-
     if request.method == 'POST':
         message = request.POST.get('message')
         response = ask_openai(message)
-
-        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
-        chat.save()
         return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html', {'chats': chats})
-
+    return render(request, 'chatbot.html')
 
 def login(request):
     if request.method == 'POST':
@@ -69,7 +61,7 @@ def register(request):
                 error_message = 'Error creating account'
                 return render(request, 'register.html', {'error_message': error_message})
         else:
-            error_message = 'Password dont match'
+            error_message = 'Passwords do not match'
             return render(request, 'register.html', {'error_message': error_message})
     return render(request, 'register.html')
 

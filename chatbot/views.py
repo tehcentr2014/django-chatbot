@@ -10,7 +10,7 @@ import os
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 #client = OpenAI(api_key=os.environ.OPENAI_API_KEY)
-
+#openai.api_key = settings.OPENAI_API_KEY
 
 def ask_openai(message):
     response = client.chat.completions.create(model="gpt-4",
@@ -24,11 +24,14 @@ def ask_openai(message):
 
 # Create your views here.
 def chatbot(request):
+    chats = Chat.objects.filter(user=request.user)
     if request.method == 'POST':
         message = request.POST.get('message')
         response = ask_openai(message)
+        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
+        chat.save()
         return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html')
+    return render(request, 'chatbot.html', {'chat':chats})
 
 def login(request):
     if request.method == 'POST':

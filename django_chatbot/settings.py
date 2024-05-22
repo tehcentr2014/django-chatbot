@@ -44,7 +44,7 @@ OPENAI_API_KEY = env('OPENAI_API_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['8000-tehcentr201-djangochatb-47ocbc66ry6.ws-eu114.gitpod.io']
-CSRF_TRUSTED_ORIGINS = ['https://*.8000-tehcentr201-djangochatb-47ocbc66ry6.ws-eu114.gitpod.io','https://*.127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://*.8000-tehcentr201-djangochatb-47ocbc66ry6.ws-eu114.gitpod.io','https://*.127.0.0.1:8000', ' .herokuapp.com']
 
 
 # Application definition

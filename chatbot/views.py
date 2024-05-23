@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from openai import OpenAI
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser
 from .models import Chat
 from django.utils import timezone
 from django.conf import settings
@@ -46,6 +47,13 @@ def login(request):
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+    #Anonimus User
+def some_view(request):
+    user = request.user
+    if isinstance(user, AnonymousUser):
+        # Handle the case where the user is not authenticated
+        return redirect('login')    
 
 def register(request):
     if request.method == 'POST':
